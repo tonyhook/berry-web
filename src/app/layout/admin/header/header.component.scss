@@ -1,0 +1,21 @@
+.expanded-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.header-gt-sm {
+  display: none;
+}
+@media screen and (min-width: 960px) {
+  .header-gt-sm {
+    display: flex;
+  }
+}
+.header-sm {
+  display: none;
+}
+@media screen and (max-width: 959px) {
+  .header-sm {
+    display: flex;
+  }
+}

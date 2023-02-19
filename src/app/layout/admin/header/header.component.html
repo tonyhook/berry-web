@@ -1,0 +1,33 @@
+<mat-toolbar color="primary" class="expanded-toolbar">
+  <div class="expanded-toolbar">
+    <button mat-button routerLink="/admin">{{ title }}</button>
+    <button class="header-gt-sm" mat-button routerLink="/admin"><mat-icon>home</mat-icon></button>
+  </div>
+  <div class="header-gt-sm">
+    <button mat-button routerLink="/admin/login" *ngIf="authService.credential === null">
+      <mat-icon>power_settings_new</mat-icon>
+      Login
+    </button>
+    <button mat-button routerLink="/admin/logout" *ngIf="authService.credential !== null">
+      <mat-icon>exit_to_app</mat-icon>
+      Logout
+    </button>
+  </div>
+  <button class="header-sm" mat-button [mat-menu-trigger-for]="menu">
+    <mat-icon>menu</mat-icon>
+  </button>
+</mat-toolbar>
+<mat-menu x-position="before" #menu="matMenu">
+  <button mat-menu-item routerLink="/admin">
+    <mat-icon>home</mat-icon>
+    Home
+  </button>
+  <button mat-menu-item routerLink="/admin/login" *ngIf="authService.credential === null">
+    <mat-icon>power_settings_new</mat-icon>
+    Login
+  </button>
+  <button mat-menu-item routerLink="/admin/logout" *ngIf="authService.credential !== null">
+    <mat-icon>exit_to_app</mat-icon>
+    Logout
+  </button>
+</mat-menu>

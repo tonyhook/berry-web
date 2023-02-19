@@ -1,0 +1,81 @@
+<div class="container">
+  <div>
+    <button type="button" class="form-button" mat-stroked-button color="accent" (click)="showNewForm = true">New</button>
+  </div>
+  <mat-card *ngIf="showNewForm" class="form-card">
+    <mat-card-content>
+      <mat-tab-group>
+        <mat-tab label="Properties">
+          <form class="form-in-tab" [formGroup]="formGroupNew">
+            <mat-form-field class="full-width-input">
+              <mat-label>Username</mat-label>
+              <input placeholder="Username" matInput formControlName="username" />
+            </mat-form-field>
+            <mat-form-field class="full-width-input">
+              <mat-label>Password</mat-label>
+              <input type="password" placeholder="Password" matInput formControlName="password" />
+            </mat-form-field>
+            <mat-checkbox class="full-width-input" formControlName="enabled">Enabled</mat-checkbox>
+            <button type="button" class="form-button" mat-stroked-button color="accent" (click)="newUser()">Submit</button>
+            <button type="button" class="form-button" mat-stroked-button color="accent" (click)="showNewForm = false">Cancel</button>
+          </form>
+        </mat-tab>
+      </mat-tab-group>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-table matSort multiTemplateDataRows [dataSource]="data">
+    <ng-container matColumnDef="username">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Username</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.username }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="expandedDetail">
+      <mat-cell *matCellDef="let row" [attr.colspan]="displayedColumns.length">
+        <div class="element-detail" [@detailExpand]="row === expandedRow ? 'expanded' : 'collapsed'">
+          <mat-card class="form-card">
+            <mat-card-content>
+              <mat-tab-group>
+                <mat-tab label="Properties">
+                  <form class="form-in-tab" [formGroup]="formGroup">
+                    <mat-form-field class="full-width-input">
+                      <mat-label>Username</mat-label>
+                      <input placeholder="Username" matInput formControlName="username" />
+                    </mat-form-field>
+                    <mat-form-field class="full-width-input">
+                      <mat-label>Password</mat-label>
+                      <input type="password" placeholder="Password" matInput formControlName="password" (focus)="touchPassword()" />
+                    </mat-form-field>
+                    <mat-checkbox class="full-width-input" formControlName="enabled">Enabled</mat-checkbox>
+                    <button type="button" class="form-button" mat-stroked-button color="accent" (click)="updateUser()">Submit</button>
+                    <button type="button" class="form-button" mat-stroked-button color="accent" (click)="deleteUser()">Delete</button>
+                  </form>
+                </mat-tab>
+
+                <mat-tab label="Roles">
+                  <mat-table [dataSource]="roles">
+                    <ng-container matColumnDef="name">
+                      <mat-header-cell *matHeaderCellDef>Roles</mat-header-cell>
+                      <mat-cell *matCellDef="let element">
+                        <mat-checkbox [checked]="userRoleSet.has(element.id)" (change)="toggleRole(element.id, $event)">{{ element.name }}</mat-checkbox>
+                      </mat-cell>
+                    </ng-container>
+
+                    <mat-header-row *matHeaderRowDef="displayedRoleColumns"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: displayedRoleColumns;"></mat-row>
+                  </mat-table>
+                </mat-tab>
+              </mat-tab-group>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns; let i = dataIndex" class="element-row expandable" [class.expanded-row]="expandedRow === row" (click)="selectUser(row)"></mat-row>
+    <mat-row *matRowDef="let row; columns: ['expandedDetail']; let i = dataIndex" class="detail-row" [class.expanded-row]="row === expandedRow"></mat-row>
+  </mat-table>
+
+  <mat-paginator *ngIf="data.page$ | async as page" [length]="page.totalElements" [pageSize]="page.size" [pageIndex]="page.number" [hidePageSize]="true" (page)="data.fetch($event.pageIndex)"></mat-paginator>
+</div>

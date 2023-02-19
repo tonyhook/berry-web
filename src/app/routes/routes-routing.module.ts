@@ -11,6 +11,9 @@ import { LogoutComponent } from './admin/logout/logout.component';
 import { PendingComponent } from './admin/pending/pending.component';
 
 import { MenuManagerComponent } from './admin/main/manager/menu/menu.component';
+import { AuthorityManagerComponent } from './admin/main/manager/authority/authority.component';
+import { RoleManagerComponent } from './admin/main/manager/role/role.component';
+import { UserManagerComponent } from './admin/main/manager/user/user.component';
 
 const routes: Routes = [
   {
@@ -29,6 +32,18 @@ const routes: Routes = [
           {
             path: 'backend/menu/:id',
             component: MenuManagerComponent,
+          },
+          {
+            path: 'security/authority',
+            component: AuthorityManagerComponent,
+          },
+          {
+            path: 'security/role',
+            component: RoleManagerComponent,
+          },
+          {
+            path: 'security/user',
+            component: UserManagerComponent,
           },
         ],
       },

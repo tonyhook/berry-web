@@ -1,0 +1,92 @@
+<div class="container">
+  <div>
+    <button type="button" class="form-button" mat-stroked-button color="accent" (click)="showNewForm = true">New</button>
+  </div>
+  <mat-card *ngIf="showNewForm" class="form-card">
+    <mat-card-content>
+      <mat-tab-group>
+        <mat-tab label="Properties">
+          <form class="form-in-tab" [formGroup]="formGroupNew">
+            <mat-form-field class="full-width-input">
+              <mat-label>Name</mat-label>
+              <input placeholder="Name" matInput formControlName="name" />
+            </mat-form-field>
+            <button type="button" class="form-button" mat-stroked-button color="accent" (click)="newRole()">Submit</button>
+            <button type="button" class="form-button" mat-stroked-button color="accent" (click)="showNewForm = false">Cancel</button>
+          </form>
+        </mat-tab>
+      </mat-tab-group>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-table matSort multiTemplateDataRows [dataSource]="data">
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.name }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="expandedDetail">
+      <mat-cell *matCellDef="let row" [attr.colspan]="displayedColumns.length">
+        <div class="element-detail" [@detailExpand]="row === expandedRow ? 'expanded' : 'collapsed'">
+          <mat-card class="form-card">
+            <mat-card-content>
+              <mat-tab-group>
+                <mat-tab label="Properties">
+                  <form class="form-in-tab" [formGroup]="formGroup">
+                    <mat-form-field class="full-width-input">
+                      <mat-label>Name</mat-label>
+                      <input placeholder="Name" matInput formControlName="name" />
+                    </mat-form-field>
+                    <button type="button" class="form-button" mat-stroked-button color="accent" (click)="updateRole()">Submit</button>
+                    <button type="button" class="form-button" mat-stroked-button color="accent" (click)="deleteRole()">Delete</button>
+                  </form>
+                </mat-tab>
+
+                <mat-tab label="Authorities">
+                  <mat-table [dataSource]="authorities">
+                    <ng-container matColumnDef="name">
+                      <mat-header-cell *matHeaderCellDef>Authority</mat-header-cell>
+                      <mat-cell *matCellDef="let element">
+                        <mat-checkbox [checked]="roleAuthoritySet.has(element.id)" (change)="toggleAuthority(element.id, $event)">{{ element.name }}</mat-checkbox>
+                      </mat-cell>
+                    </ng-container>
+
+                    <mat-header-row *matHeaderRowDef="displayedAuthorityColumns"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: displayedAuthorityColumns;"></mat-row>
+                  </mat-table>
+                </mat-tab>
+
+                <mat-tab label="Permissions">
+                  <mat-table [dataSource]="resourcesTypes">
+                    <ng-container matColumnDef="type">
+                      <mat-header-cell *matHeaderCellDef>Resource Type</mat-header-cell>
+                      <mat-cell *matCellDef="let element">{{ element }}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="permission">
+                      <mat-header-cell *matHeaderCellDef>Default Permission</mat-header-cell>
+                      <mat-cell *matCellDef="let element">
+                        <mat-checkbox [checked]="rolePermissionMap.get(element) ? rolePermissionMap.get(element)!.permission!.indexOf('c') >= 0 : false" (change)="togglePermission(element, 'c', $event)">Create</mat-checkbox>
+                        <mat-checkbox [checked]="rolePermissionMap.get(element) ? rolePermissionMap.get(element)!.permission!.indexOf('r') >= 0 : false" (change)="togglePermission(element, 'r', $event)">Read</mat-checkbox>
+                        <mat-checkbox [checked]="rolePermissionMap.get(element) ? rolePermissionMap.get(element)!.permission!.indexOf('u') >= 0 : false" (change)="togglePermission(element, 'u', $event)">Update</mat-checkbox>
+                        <mat-checkbox [checked]="rolePermissionMap.get(element) ? rolePermissionMap.get(element)!.permission!.indexOf('d') >= 0 : false" (change)="togglePermission(element, 'd', $event)">Delete</mat-checkbox>
+                      </mat-cell>
+                    </ng-container>
+
+                    <mat-header-row *matHeaderRowDef="displayedResourceTypeColumns"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: displayedResourceTypeColumns;"></mat-row>
+                  </mat-table>
+                </mat-tab>
+              </mat-tab-group>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns; let i = dataIndex" class="element-row expandable" [class.expanded-row]="expandedRow === row" (click)="selectRole(row)"></mat-row>
+    <mat-row *matRowDef="let row; columns: ['expandedDetail']; let i = dataIndex" class="detail-row" [class.expanded-row]="row === expandedRow"></mat-row>
+  </mat-table>
+
+  <mat-paginator *ngIf="data.page$ | async as page" [length]="page.totalElements" [pageSize]="page.size" [pageIndex]="page.number" [hidePageSize]="true" (page)="data.fetch($event.pageIndex)"></mat-paginator>
+</div>

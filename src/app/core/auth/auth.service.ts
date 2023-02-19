@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { Login, OpenSecurityAPI, UserDetails } from '..';
+import { Login, MenuService, OpenSecurityAPI, UserDetails } from '..';
 
 @Injectable({
   providedIn: 'root',
@@ -14,6 +14,7 @@ export class AuthService {
 
   constructor(
     private router: Router,
+    private menuService: MenuService,
     private security: OpenSecurityAPI,
     private _snackBar: MatSnackBar,
   ) {
@@ -26,6 +27,9 @@ export class AuthService {
     this.security.getUserDetails().subscribe({
       next: data => {
         this.credential = data;
+        if (this.credential) {
+          this.menuService.update();
+        }
         this.ready = true;
         this.router.navigateByUrl(this.redirectUrl);
       },

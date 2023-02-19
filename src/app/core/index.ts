@@ -14,4 +14,8 @@ export * from './api/entity/sequence-managed-resource';
 export * from './api/entity/hierarchy-managed-resource';
 export * from './api/entity/contained-managed-resource';
 
+export * from './api/entity/backend/menu';
+
+export * from './api/managed/menu.api';
+
 export * from './api/open/security.api';

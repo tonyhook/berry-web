@@ -7,6 +7,10 @@ export * from './layout/entity/menu-tree-node';
 export * from './layout/drawer.service';
 export * from './layout/menu.service';
 
+export * from './api/datasource/page';
+export * from './api/datasource/query';
+export * from './api/datasource/paginated-data-source';
+
 export * from './api/entity/security/login';
 export * from './api/entity/security/user-details';
 export * from './api/entity/managed-resource';

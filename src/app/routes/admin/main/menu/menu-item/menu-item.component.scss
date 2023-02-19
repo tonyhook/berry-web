@@ -1,0 +1,25 @@
+.mat-mdc-list-item {
+  padding: 0;
+}
+.mat-mdc-list-item.onpath {
+  background-color: lightgray;
+}
+.mat-mdc-list-item.active {
+  background-color: lightyellow;
+}
+.mat-mdc-list-item.disabled {
+  color: gray;
+}
+.item-icon {
+  padding: 0 8px;
+}
+.item-name {
+  flex-grow: 1;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+.item-wrapper {
+  display: flex;
+  width: 100%;
+  padding: 12px 0;
+}

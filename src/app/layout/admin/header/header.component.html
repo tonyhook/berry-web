@@ -1,5 +1,8 @@
 <mat-toolbar color="primary" class="expanded-toolbar">
   <div class="expanded-toolbar">
+    <button class="header-sm" mat-button (click)="drawerService.toggle()">
+      <mat-icon>menu</mat-icon>
+    </button>
     <button mat-button routerLink="/admin">{{ title }}</button>
     <button class="header-gt-sm" mat-button routerLink="/admin"><mat-icon>home</mat-icon></button>
   </div>

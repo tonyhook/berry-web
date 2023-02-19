@@ -1,0 +1,13 @@
+.mat-drawer-container {
+  height: 100%;
+}
+.mat-drawer {
+  overflow: hidden;
+  height: 100%;
+}
+.mat-drawer.full {
+  width: 300px;
+}
+.mat-drawer-content.padded {
+  margin-left: 40px;
+}

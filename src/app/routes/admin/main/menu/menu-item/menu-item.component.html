@@ -1,0 +1,11 @@
+<mat-list-item *ngIf="item" [ngStyle]="{'padding-left': (depth * 24) + 'px'}" (click)="onItemSelected(item)" [ngClass]="{'active': active, 'onpath': onpath, 'expanded': expanded, 'disabled': disabled}">
+  <div class="item-wrapper">
+    <mat-icon class="item-icon">{{ item.icon }}</mat-icon>
+    <div class="item-name" *ngIf="drawerService.contentMode !== 'icon'">{{ item.name }}</div>
+    <mat-icon class="item-icon" *ngIf="item.children && item.children.length && (drawerService.contentMode !== 'icon')" [@indicatorRotate]="expanded ? 'expanded': 'collapsed'">expand_more</mat-icon>
+  </div>
+</mat-list-item>
+<div *ngIf="item && item.children !== null && expanded && (drawerService.contentMode !== 'icon')">
+  <berry-admin-menu-item *ngFor="let child of item.children" [item]="child" [depth]="depth + 1">
+  </berry-admin-menu-item>
+</div>

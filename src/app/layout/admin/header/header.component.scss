@@ -19,3 +19,11 @@
     display: flex;
   }
 }
+.header-xs {
+  display: none;
+}
+@media screen and (min-width: 600px) {
+  .header-xs {
+    display: flex;
+  }
+}

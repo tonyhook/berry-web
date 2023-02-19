@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { AuthService } from '../../../core';
+import { AuthService, DrawerService } from '../../../core';
 
 @Component({
   selector: 'berry-admin-header',
@@ -12,6 +12,7 @@ export class HeaderComponent {
 
   constructor(
     public authService: AuthService,
+    public drawerService: DrawerService,
   ) { }
 
 }

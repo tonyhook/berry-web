@@ -9,6 +9,8 @@ import { LoginComponent } from './admin/login/login.component';
 import { LogoutComponent } from './admin/logout/logout.component';
 import { PendingComponent } from './admin/pending/pending.component';
 
+import { MenuManagerComponent } from './admin/main/manager/menu/menu.component';
+
 import { RoutesRoutingModule } from './routes-routing.module';
 
 const COMPONENTS = [
@@ -18,6 +20,7 @@ const COMPONENTS = [
   LoginComponent,
   LogoutComponent,
   PendingComponent,
+  MenuManagerComponent,
 ];
 
 @NgModule({

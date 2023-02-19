@@ -1,0 +1,117 @@
+<div *ngIf="item">
+  <mat-card class="form-card">
+    <mat-card-header>
+      <mat-card-title>Basic Information</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-list role="list">
+        <mat-list-item>Type: {{ itemType }}</mat-list-item>
+        <mat-list-item>ID: {{ item.id }}</mat-list-item>
+        <mat-list-item>Owner: {{ item.ownerId! | getUserName | async }}</mat-list-item>
+      </mat-list>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="form-card">
+    <mat-card-header>
+      <mat-card-title>Permission List</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-accordion multi>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>Inherited Permissions</mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <form [formGroup]="inheritedFormGroup">
+            <mat-checkbox formControlName="inherited" [value]="inherited.toString()" (change)="toggleInherited()">
+              Inherite permission from <ng-container *ngIf="hasOwnProperty.call(item, 'parentId')">parent</ng-container><ng-container *ngIf="hasOwnProperty.call(item, 'containerId')">container</ng-container>.
+            </mat-checkbox>
+          </form>
+
+          <mat-table
+            *ngIf="inherited" [dataSource]="inheritedPermissions">
+            <ng-container matColumnDef="roleId">
+              <mat-header-cell *matHeaderCellDef>Role</mat-header-cell>
+              <mat-cell *matCellDef="let element">{{ element.roleId | getRoleName | async }}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="permission">
+              <mat-header-cell *matHeaderCellDef>Permission</mat-header-cell>
+              <mat-cell *matCellDef="let element"><berry-operation [permission]="element" [readOnly]="true"></berry-operation></mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+          </mat-table>
+          <div *ngIf="inherited && inheritedPermissions.length === 0">No permission rule</div>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>Self Permissions</mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <mat-table [dataSource]="itemPermissions">
+            <ng-container matColumnDef="roleId">
+              <mat-header-cell *matHeaderCellDef>Role</mat-header-cell>
+              <mat-cell *matCellDef="let element">{{ element.roleId | getRoleName | async }}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="permission">
+              <mat-header-cell *matHeaderCellDef>Permission</mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                <berry-operation [permission]="element" [readOnly]="false" (change)="updatePermissionList()">
+                </berry-operation>
+              </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+          </mat-table>
+          <div *ngIf="itemPermissions.length === 0">No permission rule</div>
+
+          <hr />
+          <h4>Add a new permission rule</h4>
+          <form [formGroup]="permissionFormGroup">
+            <div>
+              <mat-form-field class="full-width">
+                <mat-select formControlName="roleid">
+                  <mat-option *ngFor="let role of roles" [value]="role.id">{{ role.name }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <mat-checkbox formControlName="create" (change)="toggleOps()">Create</mat-checkbox>
+            <mat-checkbox formControlName="read" (change)="toggleOps()">Read</mat-checkbox>
+            <mat-checkbox formControlName="update" (change)="toggleOps()">Update</mat-checkbox>
+            <mat-checkbox formControlName="delete"(change)="toggleOps()">Delete</mat-checkbox>
+            <button class="form-button" mat-stroked-button color="accent" [disabled]="ops === ''" (click)="addPermission()">Submit</button>
+          </form>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="form-card">
+    <mat-card-header>
+      <mat-card-title>Summary</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-table [dataSource]="fullPermissions">
+        <ng-container matColumnDef="roleId">
+          <mat-header-cell *matHeaderCellDef>Role</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{ element.roleId | getRoleName | async }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="permission">
+          <mat-header-cell *matHeaderCellDef>Permission</mat-header-cell>
+          <mat-cell *matCellDef="let element"><berry-operation [permission]="element" [readOnly]="true"></berry-operation></mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      </mat-table>
+      <div *ngIf="fullPermissions.length === 0">No permission rule</div>
+    </mat-card-content>
+  </mat-card>
+</div>

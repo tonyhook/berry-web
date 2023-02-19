@@ -1,0 +1,28 @@
+.drop-above {
+  border-top: 10px solid #eeeeee;
+  margin-top: -10px;
+}
+.drop-below {
+  border-bottom: 10px solid #eeeeee;
+  margin-bottom: -10px;
+}
+.drop-center {
+  background-color: #eeeeee;
+}
+
+.mat-tree-node {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.treenode {
+  flex: 1 0 auto;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+.treenode:hover {
+  background-color: #eeeeee;
+}
+.treenode.selected {
+  background-color: #dddddd;
+}

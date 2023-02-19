@@ -1,0 +1,32 @@
+<mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+  <mat-tree-node *matTreeNodeDef="let node; when: hasNoContent" matTreeNodePadding>
+    <button mat-icon-button disabled></button>
+    <mat-form-field>
+      <mat-label>Name</mat-label>
+      <input placeholder="New item..." matInput #itemValue />
+    </mat-form-field>
+    <button mat-icon-button (click)="saveNode(node, itemValue.value)">
+      <mat-icon>done</mat-icon>
+    </button>
+    <button mat-icon-button (click)="cancelNode(node)">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-tree-node>
+
+  <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding (dragover)="handleDragOver($event, node)">
+    <button mat-icon-button matTreeNodeToggle>
+      <mat-icon *ngIf="treeControl.getDescendants(node).length > 0">{{ treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right' }}</mat-icon>
+      <mat-icon *ngIf="treeControl.getDescendants(node).length === 0">menu</mat-icon>
+    </button>
+    <div class="treenode" [ngClass]="{'drop-above': dragNodeExpandOverArea === 'above' && dragNodeExpandOverNode === node,
+                                      'drop-below': dragNodeExpandOverArea === 'below' && dragNodeExpandOverNode === node,
+                                      'drop-center': dragNodeExpandOverArea === 'center' && dragNodeExpandOverNode === node,
+                                      'selected': itemId === node.id}"
+      (click)="selectNode(node)" [draggable]="!readOnly" (dragstart)="handleDragStart($event, node)" (drop)="handleDrop($event, node)" (dragend)="handleDragEnd()">{{ node.name }}</div>
+    <button mat-icon-button *ngIf="!readOnly" (click)="addNode(node)"><mat-icon>add</mat-icon></button>
+    <button mat-icon-button *ngIf="!readOnly" (click)="removeNode(node)"><mat-icon>remove</mat-icon></button>
+  </mat-tree-node>
+</mat-tree>
+<button mat-icon-button *ngIf="!readOnly" (click)="addNode(null)"><mat-icon>add</mat-icon></button>
+
+<span #emptyNode></span>

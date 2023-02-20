@@ -7,6 +7,8 @@ export * from './layout/entity/menu-tree-node';
 export * from './layout/drawer.service';
 export * from './layout/menu.service';
 
+export * from './event/content-change.event';
+
 export * from './api/datasource/page';
 export * from './api/datasource/query';
 export * from './api/datasource/paginated-data-source';

@@ -1,0 +1,9 @@
+<div>
+  <div>{{ status }}</div>
+  <input type="file" #file accept="application/pdf" (change)="fileChange($event.target)" />
+  <div class="pdf" (click)="file.click()" >
+    <pdf-viewer *ngIf="src.length > 0" [src]="src" [original-size]="false" [zoom]="1" [zoom-scale]="'page-fit'" [show-all]="false" (after-load-complete)="loaded()"></pdf-viewer>
+  </div>
+  <img *ngIf="!hash" (click)="file.click()" src="./assets/default.png" />
+
+</div>

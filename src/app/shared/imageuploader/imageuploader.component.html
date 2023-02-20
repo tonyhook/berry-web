@@ -1,0 +1,5 @@
+<div>
+  <div>{{ status }}</div>
+  <input type="file" #file accept="image/*" (change)="fileChange($event.target)" />
+  <img [src]="src" (click)="file.click()" onerror="this.src='./assets/default.png'" />
+</div>

@@ -1,0 +1,8 @@
+<div>
+  <div>{{ status }}</div>
+  <input type="file" #file accept="video/*" (change)="fileChange($event.target)" />
+  <video #video width="320" height="240" controls (click)="choosefile($event)" webkit-x5-video-player-type="h5" playsinline webkit-playsinline>
+    <source #source *ngIf="src.length > 0" [src]="src" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+</div>

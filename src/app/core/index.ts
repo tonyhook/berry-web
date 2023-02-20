@@ -28,6 +28,7 @@ export * from './api/entity/analysis/region-china';
 export * from './api/entity/analysis/region-world';
 export * from './api/entity/analysis/ip-address';
 export * from './api/entity/analysis/phone';
+export * from './api/entity/upload/upload';
 
 export * from './api/managed/menu.api';
 export * from './api/managed/authority.api';
@@ -40,3 +41,5 @@ export * from './api/open/security.api';
 export * from './api/open/region.api';
 export * from './api/open/ipaddress.api';
 export * from './api/open/phone.api';
+export * from './api/open/application.api';
+export * from './api/open/upload.api';

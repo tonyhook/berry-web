@@ -1,0 +1,58 @@
+<div class="container">
+  <div class="filter">
+    <div>
+      <mat-form-field>
+        <mat-label>Enter a date range</mat-label>
+        <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+          <input matStartDate formControlName="start" placeholder="Start date">
+          <input matEndDate formControlName="end" placeholder="End date">
+        </mat-date-range-input>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+
+        <mat-error *ngIf="range.controls['start'].hasError('matStartDateInvalid')">Invalid start date</mat-error>
+        <mat-error *ngIf="range.controls['end'].hasError('matEndDateInvalid')">Invalid end date</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="filter-checkbox" [formGroup]="clear">
+      <mat-checkbox formControlName="clear">Clear after download</mat-checkbox>
+    </div>
+    <button type="button" class="form-button" mat-stroked-button color="accent" [disabled]="!this.range.value.start || !this.range.value.end" (click)="download()">Download</button>
+  </div>
+
+  <mat-table matSort multiTemplateDataRows [dataSource]="data">
+    <ng-container matColumnDef="createTime">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Time</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.createTime | date:"yyyy-MM-dd HH:mm:ss" }}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="level">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Level</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.level }}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="username">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>User</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.username }}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="requestMethod">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Action</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.requestMethod }}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="requestResourceType">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Resource</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.requestResourceType }}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="requestResourceId">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>ID</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.requestResourceId }}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="responseCode">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Result</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.responseCode }}</mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+
+  <mat-paginator *ngIf="data.page$ | async as page" [length]="page.totalElements" [pageSize]="page.size" [pageIndex]="page.number" [hidePageSize]="true" (page)="data.fetch($event.pageIndex)"></mat-paginator>
+</div>

@@ -13,6 +13,7 @@ import { MenuManagerComponent } from './admin/main/manager/menu/menu.component';
 import { AuthorityManagerComponent } from './admin/main/manager/authority/authority.component';
 import { RoleManagerComponent } from './admin/main/manager/role/role.component';
 import { UserManagerComponent } from './admin/main/manager/user/user.component';
+import { LogManagerComponent } from './admin/main/manager/log/log.component';
 
 import { RoutesRoutingModule } from './routes-routing.module';
 
@@ -27,6 +28,7 @@ const COMPONENTS = [
   AuthorityManagerComponent,
   RoleManagerComponent,
   UserManagerComponent,
+  LogManagerComponent,
 ];
 
 @NgModule({

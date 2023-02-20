@@ -23,11 +23,13 @@ export * from './api/entity/security/authority';
 export * from './api/entity/security/permission';
 export * from './api/entity/security/role';
 export * from './api/entity/security/user';
+export * from './api/entity/audit/log';
 
 export * from './api/managed/menu.api';
 export * from './api/managed/authority.api';
 export * from './api/managed/permission.api';
 export * from './api/managed/role.api';
 export * from './api/managed/user.api';
+export * from './api/managed/log.api';
 
 export * from './api/open/security.api';

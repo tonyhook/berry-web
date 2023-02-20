@@ -1,0 +1,19 @@
+@import '../../../../../shared/styles/management.scss';
+
+.container {
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.filter {
+  display: flex;
+  justify-content: flex-end;
+  padding: 16px 0;
+}
+.filter-checkbox {
+  display: flex;
+  justify-content: flex-end;
+  margin: 1rem 0 1rem 2rem;
+}
+::ng-deep .filter .mat-mdc-form-field-bottom-align {
+  height: 0;
+}

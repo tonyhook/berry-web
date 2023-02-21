@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { environment } from '../../../../environments/environment';
@@ -16,6 +16,13 @@ export class OpenSecurityAPI {
 
   getUserDetails(): Observable<UserDetails> {
     return this.http.get<UserDetails>(environment.apipath + '/api/open/security/user-details', { withCredentials: true });
+  }
+
+  getSmsVerify(phone: string): Observable<string> {
+    const params = new HttpParams()
+      .set('phone', phone);
+
+    return this.http.get(environment.apipath + '/api/open/security/sms-verify', { params: params, responseType: 'text', withCredentials: true });
   }
 
   login(post: Login): Observable<unknown> {

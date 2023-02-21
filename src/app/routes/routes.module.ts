@@ -15,6 +15,8 @@ import { RoleManagerComponent } from './admin/main/manager/role/role.component';
 import { UserManagerComponent } from './admin/main/manager/user/user.component';
 import { LogManagerComponent } from './admin/main/manager/log/log.component';
 
+import { WechatComponent } from './home/wechat/wechat.component';
+
 import { RoutesRoutingModule } from './routes-routing.module';
 
 const COMPONENTS = [
@@ -29,6 +31,7 @@ const COMPONENTS = [
   RoleManagerComponent,
   UserManagerComponent,
   LogManagerComponent,
+  WechatComponent,
 ];
 
 @NgModule({

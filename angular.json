@@ -31,7 +31,8 @@
             ],
             "allowedCommonJsDependencies": [
               "pdfjs-dist",
-              "weixin-js-sdk"
+              "weixin-js-sdk",
+              "buffer"
             ],
             "styles": [
               "@angular/material/prebuilt-themes/indigo-pink.css",

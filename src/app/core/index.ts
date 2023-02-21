@@ -11,6 +11,7 @@ export * from './event/content-change.event';
 
 export * from './service/login.service';
 export * from './service/wechat.service';
+export * from './service/content.service';
 
 export * from './api/datasource/page';
 export * from './api/datasource/query';

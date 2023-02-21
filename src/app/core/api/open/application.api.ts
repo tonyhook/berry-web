@@ -13,6 +13,10 @@ export class OpenApplicationAPI {
     private http: HttpClient
   ) { }
 
+  getBaseUrl(): Observable<string> {
+    return this.http.get(environment.apipath + '/api/open/application/baseurl', { responseType: 'text', withCredentials: true });
+  }
+
   getStorageServerPath(): Observable<string> {
     return this.http.get(environment.apipath + '/api/open/application/serverpath', { responseType: 'text', withCredentials: true });
   }

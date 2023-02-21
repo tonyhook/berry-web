@@ -16,6 +16,8 @@ import { RoleManagerComponent } from './admin/main/manager/role/role.component';
 import { UserManagerComponent } from './admin/main/manager/user/user.component';
 import { LogManagerComponent } from './admin/main/manager/log/log.component';
 
+import { WechatComponent } from './home/wechat/wechat.component';
+
 const routes: Routes = [
   {
     path: 'admin',
@@ -74,6 +76,10 @@ const routes: Routes = [
     path: '',
     component: HomeComponent,
     children: [
+      {
+        path: 'wechat',
+        component: WechatComponent,
+      },
       {
         path: '**',
         redirectTo: '',

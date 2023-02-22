@@ -17,6 +17,10 @@ import { LogManagerComponent } from './admin/main/manager/log/log.component';
 
 import { WechatComponent } from './home/wechat/wechat.component';
 
+import { AgreementComponent } from './home/site/agreement/agreement.component';
+import { EntranceComponent } from './home/site/entrance/entrance.component';
+import { RegisterComponent } from './home/site/register/register.component';
+
 import { RoutesRoutingModule } from './routes-routing.module';
 
 const COMPONENTS = [
@@ -34,6 +38,12 @@ const COMPONENTS = [
   WechatComponent,
 ];
 
+const VISITORCOMPONENTS = [
+  AgreementComponent,
+  EntranceComponent,
+  RegisterComponent,
+];
+
 @NgModule({
   imports: [
     SharedModule,
@@ -41,6 +51,7 @@ const COMPONENTS = [
   ],
   declarations: [
     ...COMPONENTS,
+    ...VISITORCOMPONENTS,
   ],
 })
 export class RoutesModule { }

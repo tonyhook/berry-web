@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import { SHARED_MATERIAL_MODULES } from './shared-material.module';
 
 import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { SwiperModule } from 'swiper/angular';
 
 import { OperationComponent } from './operation/operation.component'
 import { PermissionComponent } from './permission/permission.component'
@@ -19,6 +20,7 @@ import { GetUserNamePipe } from './pipe/get-user-name.pipe'
 
 const THIRDMODULES: Array<Type<unknown> | unknown[]> = [
   PdfViewerModule,
+  SwiperModule,
 ];
 
 const COMPONENTS: Array<Type<unknown> | unknown[]> = [

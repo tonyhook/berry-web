@@ -18,6 +18,8 @@ import { LogManagerComponent } from './admin/main/manager/log/log.component';
 
 import { WechatComponent } from './home/wechat/wechat.component';
 
+import { EntranceComponent } from './home/site/entrance/entrance.component';
+
 const routes: Routes = [
   {
     path: 'admin',
@@ -81,8 +83,14 @@ const routes: Routes = [
         component: WechatComponent,
       },
       {
-        path: '**',
-        redirectTo: '',
+        path: '',
+        component: EntranceComponent,
+        children: [
+          {
+            path: '**',
+            redirectTo: '',
+          },
+        ]
       },
     ],
   },

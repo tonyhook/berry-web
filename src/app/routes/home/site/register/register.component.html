@@ -1,0 +1,72 @@
+<div class="container">
+
+  <div class="content-wrapper">
+    <div class="title-wrapper">
+      <div class="title-text">注册</div>
+      <div class="title-arrow"><img src="./assets/site/register/arrow.png" /></div>
+      <div class="title-logo"><img src="./assets/site/register/logo.png" /></div>
+    </div>
+
+    <div class="register-form">
+      <form class="form" autocomplete="off" [formGroup]="formGroup">
+        <div class="input-wrapper">
+          姓名<input type="text" class="full-width" matInput formControlName="name" (focus)="focusin(1)" (focusout)="focusout()" />
+        </div>
+        <div class="input-wrapper">
+          省份<input type="text" [value]="province" readonly="readonly" class="full-width" matInput (focus)="focusin(5)" (focusout)="focusout()" />
+        </div>
+        <div class="input-wrapper">
+          城市<input type="text" [value]="city" readonly="readonly" [disabled]="!province" class="full-width" matInput (focus)="focusin(6)" (focusout)="focusout()" />
+        </div>
+        <div class="input-wrapper">
+          区（县）<input type="text" [value]="county" readonly="readonly" [disabled]="!city" class="full-width" matInput (focus)="focusin(7)" (focusout)="focusout()" />
+        </div>
+        <div class="input-wrapper">
+          手机号<input type="text" class="full-width" matInput formControlName="phone" (focus)="focusin(8)" (focusout)="focusout()" />
+        </div>
+        <div class="input-wrapper">
+          验证码
+          <input type="text" class="full-width" matInput formControlName="verify" maxlength="6" (focus)="focusin(9)" (focusout)="focusout()" />
+          <button type="button" class="verify-button verify-button-valid" #ib1 (click)="getVerifyCode()">{{ verifyLabel }}</button>
+        </div>
+      </form>
+    </div>
+
+    <div *ngIf="this.agreement" class="agreement-wrapper">
+      <img *ngIf="!agree" class="checkbutton" src="./assets/site/register/checkbuttonn.png" (click)="toggleAgreement()" />
+      <img *ngIf="agree" class="checkbutton" src="./assets/site/register/checkbuttony.png" (click)="toggleAgreement()" />
+      我已阅读并同意注册须知（<span (click)="readAgreement()">查看详细</span>）
+    </div>
+  </div>
+
+  <div class="register-wrapper">
+    <div class="register-button"><img src="./assets/site/register/button.png" (click)="register()" /></div>
+    <div class="register-text invalid" #ib2 (click)="register()">注册</div>
+  </div>
+
+  <div class="footer-wrapper">
+    <img class="footer-img" src="./assets/site/register/footer.png"/>
+  </div>
+
+  <ng-container *ngIf="showAgreement">
+    <div class="select-cover" ontouchmove="event.preventDefault();"></div>
+    <div class="agreement"ontouchmove="event.preventDefault();">
+      <div class="agreement-text" ontouchmove="event.stopPropagation();" [innerHTML]="html"></div>
+      <div>
+        <button type="button" class="agreement-button" (click)="closeAgreement()">知道了</button>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="showSelector">
+    <div class="select-cover" (click)="closeSelector()" ontouchmove="event.preventDefault()" onscroll="event.preventDefault()" onmousewheel="event.preventDefault()"></div>
+    <div class="select" ontouchmove="event.preventDefault()" onscroll="event.preventDefault()" onmousewheel="event.preventDefault()">
+      <swiper [config]="selectConfig" (swiper)="onSwiper($event)" (slideChange)="onSlideChange()">
+        <ng-template swiperSlide *ngFor="let selectionItem of selectionList; index as i">
+          <div class="option" [class.last]="i===selectionList.length-1" [class.active]="i===currentSelectorIndex">{{ selectionItem }}</div>
+        </ng-template>
+      </swiper>
+    </div>
+  </ng-container>
+
+</div>

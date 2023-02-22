@@ -1,0 +1,23 @@
+<div class="container">
+
+  <ng-container *ngIf="openid">
+
+    <ng-container *ngIf="user">
+
+      <berry-agreement *ngIf="version !== null" class="agreement" name="default" [version]="version" (sign)="signAgreement($event)"></berry-agreement>
+
+      <router-outlet></router-outlet>
+
+    </ng-container>
+
+    <ng-container *ngIf="unregistered">
+      <berry-register (registered)="registered()"></berry-register>
+    </ng-container>
+
+  </ng-container>
+
+  <ng-container>
+    <div class="message">{{ message }}</div>
+  </ng-container>
+
+</div>

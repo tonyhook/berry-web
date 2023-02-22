@@ -1,0 +1,56 @@
+@import '../../../../shared/styles/home.scss';
+
+.select-cover {
+  z-index: 50;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #000000;
+  opacity: 0.2;
+}
+.agreement {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 72vw;
+  height: calc(100vh - 28vw);
+  margin: 10vw;
+  padding: 4vw;
+  border-radius: 2vw;
+  background-color: #ffffff;
+  opacity: 1.0;
+  overflow: hidden;
+  justify-content: center;
+}
+.agreement-text {
+  top: 0;
+  left: 0;
+  width: 70vw;
+  height: calc(100vh - 30vw);
+  font-size: 3vw;
+  overflow: scroll;
+}
+.agreement-button {
+  font-size: 2.5vw;
+  width: 20vw;
+  height: 6vw;
+  border-radius: 3vw;
+  margin: 2vw;
+  border: none;
+  outline: none;
+}
+.agreement-button.agree {
+  color: #ffffff;
+  background-color: #0d69ad;
+}
+.agreement-button.disagree {
+  color: #999999;
+  background-color: #eeeeee;
+}

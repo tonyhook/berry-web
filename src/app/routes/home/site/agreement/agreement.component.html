@@ -1,0 +1,16 @@
+<div class="container">
+
+  <ng-container *ngIf="agreement && version < agreement.version">
+    <div class="select-cover" ontouchmove="event.preventDefault();"></div>
+
+    <div class="agreement" ontouchmove="event.preventDefault();">
+      <div class="agreement-text" ontouchmove="event.stopPropagation();" [innerHTML]="html">
+      </div>
+      <div>
+        <button type="button" class="agreement-button disagree" (click)="disagree()">不同意</button>
+        <button type="button" class="agreement-button agree" (click)="agree()">同意</button>
+      </div>
+    </div>
+  </ng-container>
+
+</div>

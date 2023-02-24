@@ -24,6 +24,8 @@ export * from './api/entity/security/permission';
 export * from './api/entity/security/role';
 export * from './api/entity/security/user';
 export * from './api/entity/audit/log';
+export * from './api/entity/analysis/region-china';
+export * from './api/entity/analysis/region-world';
 
 export * from './api/managed/menu.api';
 export * from './api/managed/authority.api';
@@ -33,3 +35,4 @@ export * from './api/managed/user.api';
 export * from './api/managed/log.api';
 
 export * from './api/open/security.api';
+export * from './api/open/region.api';

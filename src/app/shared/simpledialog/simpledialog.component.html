@@ -1,0 +1,15 @@
+  <mat-card>
+    <mat-card-header>Add {{ data.property }}</mat-card-header>
+    <mat-card-content>
+      <div mat-dialog-content>
+        <mat-form-field class="simple-input-dialog-input">
+          <mat-label>Name</mat-label>
+          <input placeholder="Name" cdkFocusInitial matInput [(ngModel)]="data.name" />
+        </mat-form-field>
+      </div>
+  </mat-card-content>
+  <mat-card-actions>
+    <button class="form-button" mat-stroked-button color="accent" (click)="cancel()">Cancel</button>
+    <button class="form-button" mat-stroked-button color="accent" [mat-dialog-close]="data.name">OK</button>
+  </mat-card-actions>
+</mat-card>

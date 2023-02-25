@@ -1,0 +1,79 @@
+<div *ngIf="list !== ''" class="container">
+  <div>
+    <button type="button" class="form-button" mat-stroked-button color="accent" (click)="showNewForm = true">New</button>
+  </div>
+  <mat-card *ngIf="showNewForm" class="form-card">
+    <mat-card-content>
+      <mat-tab-group>
+        <mat-tab label="Properties">
+          <form class="form-in-tab" [formGroup]="formGroupNew">
+            <mat-form-field class="full-width-input">
+              <mat-label>Name</mat-label>
+              <input placeholder="Name" matInput formControlName="name" />
+            </mat-form-field>
+            <mat-form-field class="full-width-input">
+              <mat-label>Link</mat-label>
+              <input placeholder="Link" matInput formControlName="link" />
+            </mat-form-field>
+            <mat-checkbox class="full-width-input" formControlName="disabled">Disabled</mat-checkbox>
+            <button type="button" class="form-button" mat-stroked-button color="accent" (click)="newCarousel()">Submit</button>
+            <button type="button" class="form-button" mat-stroked-button color="accent"(click)="showNewForm = false">Cancel</button>
+          </form>
+        </mat-tab>
+      </mat-tab-group>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-table #table multiTemplateDataRows cdkDropList [cdkDropListData]="carousels" (cdkDropListDropped)="dropCarousel($event)" [dataSource]="carousels">
+    <ng-container matColumnDef="link">
+      <mat-header-cell *matHeaderCellDef>Link</mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        <span>{{ row.link }}</span>
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        <mat-icon *ngIf="row.disabled" class="status-icon" color="accent">visibility_off</mat-icon>
+        <mat-icon *ngIf="!row.disabled" class="status-icon" color="primary">visibility</mat-icon>
+        <span>{{ row.name }}</span>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="expandedDetail">
+      <mat-cell *matCellDef="let row" [attr.colspan]="displayedColumns.length">
+        <div class="element-detail" [@detailExpand]="row === expandedRow ? 'expanded' : 'collapsed'">
+          <mat-card class="form-card">
+            <mat-card-content>
+              <mat-tab-group>
+                <mat-tab label="Properties">
+                  <form class="form-in-tab" [formGroup]="formGroup">
+                    <div class="image-input full-width-input">
+                      Carousel Image
+                      <berry-image-uploader resourcetype="carousel" [resourceid]="row?.id" [hash]="row?.image" (imageChange)="changeCarousel($event)"></berry-image-uploader>
+                    </div>
+                    <mat-form-field class="full-width-input">
+                      <mat-label>Name</mat-label>
+                      <input placeholder="Name" matInput formControlName="name" />
+                    </mat-form-field>
+                    <mat-form-field class="full-width-input">
+                      <mat-label>Link</mat-label>
+                      <input placeholder="Link" matInput formControlName="link" />
+                    </mat-form-field>
+                    <mat-checkbox class="full-width-input" formControlName="disabled">Disabled</mat-checkbox>
+                    <button type="button" class="form-button" mat-stroked-button color="accent" (click)="updateCarousel()">Submit</button>
+                    <button type="button" class="form-button" mat-stroked-button color="accent" (click)="deleteCarousel()">Delete</button>
+                  </form>
+                </mat-tab>
+              </mat-tab-group>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row cdkDrag *matRowDef="let row; columns: displayedColumns;" class="element-row expandable" [class.expanded-row]="expandedRow === row" [cdkDragData]="row" (click)="selectCarousel(row)"></mat-row>
+    <mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></mat-row>
+  </mat-table>
+</div>

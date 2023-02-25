@@ -1,0 +1,14 @@
+@import '../../../../../shared/styles/management.scss';
+
+.container.content {
+  flex-direction: column;
+}
+.container.column {
+  flex-direction: row;
+}
+.tree {
+  flex: 0 1 30%;
+}
+.setting {
+  flex: 1 0 70%;
+}

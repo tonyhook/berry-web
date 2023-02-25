@@ -1,0 +1,143 @@
+<div *ngIf="content" class="container content">
+  <div>
+    <button type="button" class="form-button" mat-stroked-button color="accent" (click)="quitContentEditor()">Back</button>
+  </div>
+  <div>
+    <mat-card class="form-card">
+      <mat-card-content>
+        <mat-tab-group *ngIf="content.id" (selectedTabChange)="selectTab($event)">
+          <mat-tab label="Properties">
+            <form class="form-in-tab" [formGroup]="formGroup">
+              <mat-form-field class="full-width-input">
+                <mat-label>Content Type</mat-label>
+                <mat-select formControlName="type">
+                  <mat-option value="article">Article</mat-option>
+                  <mat-option value="video">Video</mat-option>
+                  <mat-option value="pdf">PDF</mat-option>
+                  <mat-option value="link">Link</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field class="full-width-input">
+                <mat-label>Title</mat-label>
+                <input placeholder="Title" matInput formControlName="title" />
+              </mat-form-field>
+              <mat-form-field class="full-width-input">
+                <mat-label>Subtitle</mat-label>
+                <input placeholder="Subtitle" matInput formControlName="subtitle" />
+              </mat-form-field>
+              <mat-form-field class="full-width-input">
+                <mat-label>Description</mat-label>
+                <input placeholder="Description" matInput formControlName="description" />
+              </mat-form-field>
+              <div class="full-width-input">
+                <div class="image-input">
+                  Feeds Thumbnail
+                  <berry-image-uploader resourcetype="content" [resourceid]="content.id" [hash]="content.feedsThumb" (imageChange)="changeFeedsThumb($event)"></berry-image-uploader>
+                </div>
+              </div>
+              <mat-checkbox class="full-width-input" formControlName="disabled">Disabled</mat-checkbox>
+              <button type="button" class="form-button" mat-stroked-button color="accent" (click)="updateContent()">Submit</button>
+              <button type="button" class="form-button" mat-stroked-button color="accent" (click)="deleteContent()">Delete</button>
+            </form>
+          </mat-tab>
+
+          <mat-tab *ngIf="content.type==='article' || content.type==='video'" label="Article">
+            <button type="button" class="form-button" mat-stroked-button color="accent" (click)="saveArticle()">Save</button>
+            <ckeditor *ngIf="readyToShowEditor" [config]="editorConfig" [(ngModel)]="editorContent" (fileUploadResponse)="dropped($event)" editorUrl="https://cdn.ckeditor.com/4.20.2/full-all/ckeditor.js"></ckeditor>
+          </mat-tab>
+
+          <mat-tab *ngIf="content.type==='video'" label="Video">
+            <div class="full-width-input">
+              Video
+              <berry-video-uploader *ngIf="content" resourcetype="content" [resourceid]="content.id" [hash]="content.video" (videoChange)="changeVideo($event)"></berry-video-uploader>
+            </div>
+            <div class="full-width-input">
+              Poster
+              <berry-image-uploader *ngIf="content" resourcetype="content" [resourceid]="content.id" [hash]="content.poster" (imageChange)="changePoster($event)"></berry-image-uploader>
+            </div>
+          </mat-tab>
+
+          <mat-tab *ngIf="content.type==='pdf'" label="PDF">
+            <div class="full-width-input">
+              <berry-pdf-uploader *ngIf="content" resourcetype="content" [resourceid]="content.id" [hash]="content.pdf" (pdfChange)="changePdf($event)"></berry-pdf-uploader>
+            </div>
+          </mat-tab>
+          <mat-tab *ngIf="content.type==='link'" label="Link">
+            <button type="button" class="form-button" mat-stroked-button color="accent" (click)="saveLink()">Save</button>
+            <form class="form-in-tab" [formGroup]="formGroupLink">
+              <mat-form-field class="full-width-input">
+                <mat-label>Link</mat-label>
+                <input placeholder="Link" matInput formControlName="link" />
+              </mat-form-field>
+            </form>
+          </mat-tab>
+        </mat-tab-group>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+<div *ngIf="!content" class="container column">
+  <berry-tree-view class="tree" [items]="columns" [itemId]="column?.id" [readOnly]="true" (itemSelect)="selectColumnItem($event)"></berry-tree-view>
+  <mat-divider [vertical]="true"></mat-divider>
+  <div *ngIf="column" class="setting">
+    <button type="button" class="form-button" mat-stroked-button color="accent" (click)="showNewForm = true">New</button>
+    <mat-card *ngIf="showNewForm" class="form-card">
+      <mat-card-content>
+        <mat-tab-group>
+          <mat-tab label="Properties">
+            <form class="form-in-tab" [formGroup]="formGroupNew">
+              <mat-form-field class="full-width-input">
+                <mat-label>Content Type</mat-label>
+                <mat-select formControlName="type">
+                  <mat-option value="article">Article</mat-option>
+                  <mat-option value="video">Video</mat-option>
+                  <mat-option value="pdf">PDF</mat-option>
+                  <mat-option value="link">Link</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field class="full-width-input">
+                <mat-label>Title</mat-label>
+                <input placeholder="Title" matInput formControlName="title" />
+              </mat-form-field>
+              <mat-form-field class="full-width-input">
+                <mat-label>Subtitle</mat-label>
+                <input placeholder="Subtitle" matInput formControlName="subtitle" />
+              </mat-form-field>
+              <mat-form-field class="full-width-input">
+                <mat-label>Description</mat-label>
+                <input placeholder="Description" matInput formControlName="description" />
+              </mat-form-field>
+              <mat-checkbox class="full-width-input" formControlName="disabled">Disabled</mat-checkbox>
+              <button type="button" class="form-button" mat-stroked-button color="accent" (click)="newContent()">Submit</button>
+              <button type="button" class="form-button" mat-stroked-button color="accent" (click)="showNewForm = false">Cancle</button>
+            </form>
+          </mat-tab>
+        </mat-tab-group>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-table #table multiTemplateDataRows cdkDropList [cdkDropListData]="contents" (cdkDropListDropped)="dropContent($event)" [dataSource]="contents">
+      <ng-container matColumnDef="type">
+        <mat-header-cell *matHeaderCellDef>Content Type</mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <mat-icon *ngIf="row.disabled" class="status-icon" color="accent">visibility_off</mat-icon>
+          <mat-icon *ngIf="!row.disabled" class="status-icon" color="primary">visibility</mat-icon>
+          <mat-icon cdkDragHandle *ngIf="row.type==='article'">receipt</mat-icon>
+          <mat-icon cdkDragHandle *ngIf="row.type==='video'">videocam</mat-icon>
+          <mat-icon cdkDragHandle *ngIf="row.type==='pdf'">picture_as_pdf</mat-icon>
+          <mat-icon cdkDragHandle *ngIf="row.type==='link'">link</mat-icon>
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="title">
+        <mat-header-cell *matHeaderCellDef>Title</mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <span>{{ row.title }}</span>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row mat-row cdkDrag *matRowDef="let row; columns: displayedColumns;" class="element-row" [cdkDragData]="row" (click)="selectContent(row.id)"></mat-row>
+    </mat-table>
+  </div>
+</div>

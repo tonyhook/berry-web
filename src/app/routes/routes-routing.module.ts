@@ -15,6 +15,13 @@ import { AuthorityManagerComponent } from './admin/main/manager/authority/author
 import { RoleManagerComponent } from './admin/main/manager/role/role.component';
 import { UserManagerComponent } from './admin/main/manager/user/user.component';
 import { LogManagerComponent } from './admin/main/manager/log/log.component';
+import { CarouselManagerComponent } from './admin/main/manager/carousel/carousel.component';
+import { ColumnManagerComponent } from './admin/main/manager/column/column.component';
+import { ContentManagerComponent } from './admin/main/manager/content/content.component';
+import { GalleryManagerComponent } from './admin/main/manager/gallery/gallery.component';
+import { PopupManagerComponent } from './admin/main/manager/popup/popup.component';
+import { TagManagerComponent } from './admin/main/manager/tag/tag.component';
+import { TopicManagerComponent } from './admin/main/manager/topic/topic.component';
 
 import { WechatComponent } from './home/wechat/wechat.component';
 
@@ -53,6 +60,66 @@ const routes: Routes = [
           {
             path: 'audit/log',
             component: LogManagerComponent,
+          },
+          {
+            path: 'cms/carousel',
+            component: CarouselManagerComponent,
+          },
+          {
+            path: 'cms/carousel/:list',
+            component: CarouselManagerComponent,
+          },
+          {
+            path: 'cms/column',
+            component: ColumnManagerComponent,
+          },
+          {
+            path: 'cms/column/:id',
+            component: ColumnManagerComponent,
+          },
+          {
+            path: 'cms/content',
+            component: ContentManagerComponent,
+          },
+          {
+            path: 'cms/content/:id',
+            component: ContentManagerComponent,
+          },
+          {
+            path: 'cms/gallery',
+            component: GalleryManagerComponent,
+          },
+          {
+            path: 'cms/gallery/:type',
+            component: GalleryManagerComponent,
+          },
+          {
+            path: 'cms/gallery/:id',
+            component: GalleryManagerComponent,
+          },
+          {
+            path: 'cms/popup',
+            component: PopupManagerComponent,
+          },
+          {
+            path: 'cms/popup/:list',
+            component: PopupManagerComponent,
+          },
+          {
+            path: 'cms/tag',
+            component: TagManagerComponent,
+          },
+          {
+            path: 'cms/tag/:type',
+            component: TagManagerComponent,
+          },
+          {
+            path: 'cms/topic',
+            component: TopicManagerComponent,
+          },
+          {
+            path: 'cms/topic/:type',
+            component: TopicManagerComponent,
           },
         ],
       },

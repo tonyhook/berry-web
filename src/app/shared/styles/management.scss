@@ -31,6 +31,23 @@
 .full-width-input {
   width: 100%;
 }
+.full-width-input-add {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+.full-width-input-add-icon {
+  width: 48px;
+  height: 48px;
+  font-size: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
 .status-icon {
   display: flex;
   justify-content: center;

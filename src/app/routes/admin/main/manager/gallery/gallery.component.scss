@@ -1,0 +1,95 @@
+@import '../../../../../shared/styles/management.scss';
+
+.container {
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.gallery-list {
+  display: grid;
+  justify-content: space-around;
+  grid-template-columns: repeat(auto-fill, 166px);
+  margin: 0 16px;
+}
+.gallery-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 150px;
+  height: 180px;
+  margin: 2rem 0;
+  overflow: hidden;
+  justify-content: space-between;
+  align-items: center;
+}
+.gallery-thumb {
+  width: 150px;
+  height: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.gallery-thumb img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.gallery-name-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  max-width: 150px;
+}
+.gallery-name {
+  max-width: calc(150px - 1.5rem);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.picture-list {
+  display: grid;
+  justify-content: space-around;
+  grid-template-columns: repeat(auto-fill, 166px);
+  margin: 0 16px;
+}
+.picture-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 150px;
+  width: 150px;
+  margin: 2rem 0;
+  overflow: hidden;
+  justify-content: space-between;
+  align-items: center;
+}
+.picture-thumb {
+  width: 150px;
+  height: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 64px;
+}
+.picture-thumb img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.picture-action-wrapper {
+  position: absolute;
+  right: 4px;
+  top: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.picture-action {
+  margin: 4px;
+}
+input.file {
+  display: none;
+}

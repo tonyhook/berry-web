@@ -1,0 +1,26 @@
+<div class="container">
+  <berry-tree-view class="tree" [items]="columns" [itemId]="column?.id" [readOnly]="false" (itemChange)="changeColumnItem($event)" (itemSelect)="selectColumnItem($event)" (itemNew)="newColumnItem($event)" (itemDelete)="deleteColumnItem($event)"></berry-tree-view>
+  <mat-divider [vertical]="true"></mat-divider>
+  <div class="setting">
+    <mat-tab-group>
+      <mat-tab label="Properties">
+        <form class="form-in-tab" *ngIf="column" [formGroup]="formGroup">
+          <mat-form-field class="full-width-input">
+            <mat-label>Name</mat-label>
+            <input placeholder="Name" matInput formControlName="name" />
+          </mat-form-field>
+          <mat-form-field class="full-width-input">
+            <mat-label>Description</mat-label>
+            <input placeholder="Description" matInput formControlName="description" />
+          </mat-form-field>
+          <mat-checkbox class="full-width-input" formControlName="disabled">Disabled</mat-checkbox>
+          <button type="button" class="form-button" mat-stroked-button color="accent" (click)="updateColumn()">Submit</button>
+        </form>
+      </mat-tab>
+
+      <mat-tab label="Permission">
+        <berry-permission [item]="column" [itemType]="'column'"></berry-permission>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>

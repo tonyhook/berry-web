@@ -40,6 +40,7 @@ export * from './api/entity/upload/upload';
 export * from './api/entity/wechat/wechat-user';
 export * from './api/entity/visitor/agreement';
 export * from './api/entity/visitor/visitor';
+export * from './api/entity/visitor/profile-log';
 export * from './api/entity/cms/carousel';
 export * from './api/entity/cms/column';
 export * from './api/entity/cms/content';

@@ -21,6 +21,7 @@ import { GalleryManagerComponent } from './admin/main/manager/gallery/gallery.co
 import { PopupManagerComponent } from './admin/main/manager/popup/popup.component';
 import { TagManagerComponent } from './admin/main/manager/tag/tag.component';
 import { TopicManagerComponent } from './admin/main/manager/topic/topic.component';
+import { WechatAccountManagerComponent } from './admin/main/manager/wechat-account/wechat-account.component';
 
 import { WechatComponent } from './home/wechat/wechat.component';
 
@@ -49,6 +50,7 @@ const COMPONENTS = [
   PopupManagerComponent,
   TagManagerComponent,
   TopicManagerComponent,
+  WechatAccountManagerComponent,
   WechatComponent,
 ];
 

@@ -31,6 +31,7 @@ export class WechatComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       this.clean = params['clean'];
       if (this.clean) {
+        localStorage.removeItem('appid');
         localStorage.removeItem('openid');
         localStorage.removeItem('avatar');
         localStorage.removeItem('gender');
@@ -44,37 +45,40 @@ export class WechatComponent implements OnInit {
         this.code = params['code'];
         this.state = params['state'];
 
-        this.wechatAPI.authWechatUserOAuth(this.code).subscribe(
-          data => {
-            this.openid = data.openid;
-            this.wechatService.setOpenid(data.openid);
+        const appid = this.wechatService.getLocalUserInfo('appid');
+        if (appid != null) {
+          this.wechatAPI.authWechatUserOAuth(appid, this.code).subscribe(
+            data => {
+              this.openid = data.openid;
+              this.wechatService.setOpenid(data.openid);
 
-            if (data.avatar) {
-              this.avatar = data.avatar;
-              this.wechatService.setAvatar(data.avatar);
-            }
+              if (data.avatar) {
+                this.avatar = data.avatar;
+                this.wechatService.setAvatar(data.avatar);
+              }
 
-            if (data.gender) {
-              this.gender = data.gender;
-              this.wechatService.setGender(data.gender);
-            }
+              if (data.gender) {
+                this.gender = data.gender;
+                this.wechatService.setGender(data.gender);
+              }
 
-            if (data.nickname) {
-              this.nickname = data.nickname;
-              this.wechatService.setNickname(data.nickname);
-            }
+              if (data.nickname) {
+                this.nickname = data.nickname;
+                this.wechatService.setNickname(data.nickname);
+              }
 
-            if (data.unionid) {
-              this.unionid = data.unionid;
-              this.wechatService.setUnionid(data.unionid);
-            }
+              if (data.unionid) {
+                this.unionid = data.unionid;
+                this.wechatService.setUnionid(data.unionid);
+              }
 
-            location.replace(this.state);
-          },
-          error => {
-            this.error = error.message;
-          },
-        );
+              location.replace(this.state);
+            },
+            error => {
+              this.error = error.message;
+            },
+          );
+        }
       }
     });
   }

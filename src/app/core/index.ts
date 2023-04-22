@@ -37,6 +37,8 @@ export * from './api/entity/analysis/region-world';
 export * from './api/entity/analysis/ip-address';
 export * from './api/entity/analysis/phone';
 export * from './api/entity/upload/upload';
+export * from './api/entity/wechat/wechat-account';
+export * from './api/entity/wechat/wechat-site';
 export * from './api/entity/wechat/wechat-user';
 export * from './api/entity/visitor/agreement';
 export * from './api/entity/visitor/visitor';
@@ -64,6 +66,8 @@ export * from './api/managed/picture.api';
 export * from './api/managed/popup.api';
 export * from './api/managed/tag.api';
 export * from './api/managed/topic.api';
+export * from './api/managed/wechat-account.api';
+export * from './api/managed/wechat-site.api';
 
 export * from './api/open/security.api';
 export * from './api/open/region.api';

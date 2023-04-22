@@ -1,0 +1,170 @@
+<div class="container">
+  <div>
+    <button type="button" class="form-button" mat-stroked-button color="accent" (click)="showNewForm = true">New</button>
+  </div>
+  <mat-card *ngIf="showNewForm" class="form-card">
+    <mat-card-content>
+      <mat-tab-group>
+        <mat-tab label="Properties">
+          <form class="form-in-tab" [formGroup]="formGroupNew">
+            <mat-form-field class="full-width-input">
+              <mat-label>Type</mat-label>
+              <mat-select formControlName="type">
+                <mat-option value="service">Service Account</mat-option>
+                <mat-option value="subscribe">Subscription Account</mat-option>
+                <mat-option value="app">Mini Program</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field class="full-width-input">
+              <mat-label>Name</mat-label>
+              <input placeholder="Name" matInput formControlName="name" />
+            </mat-form-field>
+            <mat-form-field class="full-width-input">
+              <mat-label>Original ID</mat-label>
+              <input placeholder="Original ID" matInput formControlName="originalid" />
+            </mat-form-field>
+            <mat-form-field class="full-width-input">
+              <mat-label>E-Mail</mat-label>
+              <input placeholder="E-Mail" matInput formControlName="email" />
+            </mat-form-field>
+            <mat-form-field class="full-width-input">
+              <mat-label>Password</mat-label>
+              <input placeholder="Password" matInput formControlName="password" />
+            </mat-form-field>
+            <mat-form-field class="full-width-input">
+              <mat-label>App ID</mat-label>
+              <input placeholder="App ID" matInput formControlName="appid" />
+            </mat-form-field>
+            <mat-form-field class="full-width-input">
+              <mat-label>Secret</mat-label>
+              <input placeholder="Secret" matInput formControlName="secret" />
+            </mat-form-field>
+            <mat-form-field class="full-width-input">
+              <mat-label>Wechat ID (Official Account)</mat-label>
+              <input placeholder="Wechat ID" matInput formControlName="wechatid" />
+            </mat-form-field>
+            <mat-form-field class="full-width-input">
+              <mat-label>Message Token (Official Account)</mat-label>
+              <input placeholder="Message Token" matInput formControlName="messageToken" />
+            </mat-form-field>
+            <mat-form-field class="full-width-input">
+              <mat-label>Verify Filename (Official Account)</mat-label>
+              <input placeholder="Verify Filename" matInput formControlName="verifyFilename" />
+            </mat-form-field>
+            <mat-form-field class="full-width-input">
+              <mat-label>Verify Content (Official Account)</mat-label>
+              <input placeholder="Verify Content" matInput formControlName="verifyContent" />
+            </mat-form-field>
+            <mat-form-field class="full-width-input">
+              <mat-label>Authority Domain (Official Account)</mat-label>
+              <input placeholder="Authority Domain" matInput formControlName="authDomain" />
+            </mat-form-field>
+            <button type="button" class="form-button" mat-stroked-button color="accent" (click)="newWechatAccount()">Submit</button>
+            <button type="button" class="form-button" mat-stroked-button color="accent" (click)="showNewForm = false">Cancel</button>
+          </form>
+        </mat-tab>
+      </mat-tab-group>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-table matSort multiTemplateDataRows [dataSource]="data">
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        <mat-icon *ngIf="row.type === 'service'" class="status-icon" color="accent"><img src="./assets/manager/wechat-account/service.png"></mat-icon>
+        <mat-icon *ngIf="row.type === 'subscribe'" class="status-icon" color="accent"><img src="./assets/manager/wechat-account/subscribe.png"></mat-icon>
+        <mat-icon *ngIf="row.type === 'app'" class="status-icon" color="accent"><img src="./assets/manager/wechat-account/app.png"></mat-icon>
+        <div>{{ row.name }}</div>
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="appid">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>App ID</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.appid }}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="originalid">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Original ID</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.originalid }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="expandedDetail">
+      <mat-cell *matCellDef="let row" [attr.colspan]="displayedColumns.length">
+        <div class="element-detail" [@detailExpand]="row === expandedRow ? 'expanded' : 'collapsed'">
+          <mat-card class="form-card">
+            <mat-card-content>
+              <mat-tab-group>
+                <mat-tab label="Properties">
+                  <form class="form-in-tab" [formGroup]="formGroup">
+                    <mat-form-field class="full-width-input">
+                      <mat-label>Type</mat-label>
+                      <mat-select formControlName="type">
+                        <mat-option value="service">Service Account</mat-option>
+                        <mat-option value="subscribe">Subscription Account</mat-option>
+                        <mat-option value="app">Mini Program</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                    <mat-form-field class="full-width-input">
+                      <mat-label>Name</mat-label>
+                      <input placeholder="Name" matInput formControlName="name" />
+                    </mat-form-field>
+                    <mat-form-field class="full-width-input">
+                      <mat-label>Original ID</mat-label>
+                      <input placeholder="Original ID" matInput formControlName="originalid" />
+                    </mat-form-field>
+                    <mat-form-field class="full-width-input">
+                      <mat-label>E-Mail</mat-label>
+                      <input placeholder="E-Mail" matInput formControlName="email" />
+                    </mat-form-field>
+                    <mat-form-field class="full-width-input">
+                      <mat-label>Password</mat-label>
+                      <input placeholder="Password" matInput formControlName="password" />
+                    </mat-form-field>
+                    <mat-form-field class="full-width-input">
+                      <mat-label>App ID</mat-label>
+                      <input placeholder="App ID" matInput formControlName="appid" />
+                    </mat-form-field>
+                    <mat-form-field class="full-width-input">
+                      <mat-label>Secret</mat-label>
+                      <input placeholder="Secret" matInput formControlName="secret" />
+                    </mat-form-field>
+                    <mat-form-field class="full-width-input">
+                      <mat-label>Wechat ID (Official Account)</mat-label>
+                      <input placeholder="Wechat ID" matInput formControlName="wechatid" />
+                    </mat-form-field>
+                    <mat-form-field class="full-width-input">
+                      <mat-label>Message Token (Official Account)</mat-label>
+                      <input placeholder="Message Token" matInput formControlName="messageToken" />
+                    </mat-form-field>
+                    <mat-form-field class="full-width-input">
+                      <mat-label>Verify Filename (Official Account)</mat-label>
+                      <input placeholder="Verify Filename" matInput formControlName="verifyFilename" />
+                    </mat-form-field>
+                    <mat-form-field class="full-width-input">
+                      <mat-label>Verify Content (Official Account)</mat-label>
+                      <input placeholder="Verify Content" matInput formControlName="verifyContent" />
+                    </mat-form-field>
+                    <mat-form-field class="full-width-input">
+                      <mat-label>Authority Domain (Official Account)</mat-label>
+                      <input placeholder="Authority Domain" matInput formControlName="authDomain" />
+                    </mat-form-field>
+                    <mat-form-field class="full-width-input">
+                      <mat-label>H5 Sites (Official Account)</mat-label>
+                      <input placeholder="H5 Sites" matInput formControlName="wechatSites" />
+                    </mat-form-field>
+                    <button type="button" class="form-button" mat-stroked-button color="accent" (click)="updateWechatAccount()">Submit</button>
+                    <button type="button" class="form-button" mat-stroked-button color="accent" (click)="deleteWechatAccount()">Delete</button>
+                  </form>
+                </mat-tab>
+              </mat-tab-group>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns; let i = dataIndex" class="element-row expandable" [class.expanded-row]="expandedRow === row" (click)="selectWechatAccount(row)"></mat-row>
+    <mat-row *matRowDef="let row; columns: ['expandedDetail']; let i = dataIndex" class="detail-row" [class.expanded-row]="row === expandedRow"></mat-row>
+  </mat-table>
+
+  <mat-paginator *ngIf="data.page$ | async as page" [length]="page.totalElements" [pageSize]="page.size" [pageIndex]="page.number" [hidePageSize]="true" (page)="data.fetch($event.pageIndex)"></mat-paginator>
+</div>

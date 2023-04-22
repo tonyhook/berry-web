@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
-import { forkJoin, Subject } from 'rxjs';
+import { Inject, Injectable } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Subject } from 'rxjs';
 
 import { wx } from 'weixin-js-sdk';
 
 import { environment } from '../../../environments/environment';
 
-import { OpenApplicationAPI } from '../api/open/application.api';
 import { OpenWechatAPI } from '../api/open/wechat.api';
 
 @Injectable({
@@ -16,171 +16,173 @@ export class WechatService {
   public update$: Subject<[string, string]>;
 
   constructor(
-    private applicationAPI: OpenApplicationAPI,
     private wechatAPI: OpenWechatAPI,
+    @Inject(DOCUMENT) private document: Document,
   ) {
     this.update$ = new Subject<[string, string]>();
   }
 
   setWechatShareConfig(title: string, desc: string, link: string, imgUrl: string) {
-    forkJoin([
-      this.applicationAPI.getBaseUrl(),
-      this.wechatAPI.getWechatConfig(location.href.split('#')[0]),
-    ]).subscribe(
-      result => {
-        const params = result[1].split('&');
-        const config = {
-          debug: false,
-          appId: '',
-          timestamp: '',
-          nonceStr: '',
-          signature: '',
-          jsApiList: [
-            'updateAppMessageShareData',
-            'updateTimelineShareData',
-          ]
-        };
-        for (let i = 0; i < params.length; i++) {
-          if (params[i].split('=')[0] == 'appId') {
-            config.appId = params[i].split('=')[1];
+    const appid = this.getLocalUserInfo('appid');
+    const origin = this.document.location.origin;
+
+    if (appid != null) {
+      this.wechatAPI.getWechatConfig(appid, location.href.split('#')[0]).subscribe(
+        result => {
+          const params = result.split('&');
+          const config = {
+            debug: false,
+            appId: '',
+            timestamp: '',
+            nonceStr: '',
+            signature: '',
+            jsApiList: [
+              'updateAppMessageShareData',
+              'updateTimelineShareData',
+            ]
+          };
+          for (let i = 0; i < params.length; i++) {
+            if (params[i].split('=')[0] == 'appId') {
+              config.appId = params[i].split('=')[1];
+            }
+            if (params[i].split('=')[0] == 'timestamp') {
+              config.timestamp = params[i].split('=')[1];
+            }
+            if (params[i].split('=')[0] == 'nonceStr') {
+              config.nonceStr = params[i].split('=')[1];
+            }
+            if (params[i].split('=')[0] == 'signature') {
+              config.signature = params[i].split('=')[1];
+            }
           }
-          if (params[i].split('=')[0] == 'timestamp') {
-            config.timestamp = params[i].split('=')[1];
-          }
-          if (params[i].split('=')[0] == 'nonceStr') {
-            config.nonceStr = params[i].split('=')[1];
-          }
-          if (params[i].split('=')[0] == 'signature') {
-            config.signature = params[i].split('=')[1];
-          }
+          wx.config(config);
+          wx.ready(function() {
+            setTimeout(() => {
+              wx.updateAppMessageShareData({
+                title: title,
+                desc: desc,
+                link: origin + link,
+                imgUrl: origin + imgUrl,
+                success: function () {
+                  return;
+                }
+              });
+              wx.updateTimelineShareData({
+                title: title,
+                desc: desc,
+                link: origin + link,
+                imgUrl: origin + imgUrl,
+                success: function () {
+                  return;
+                }
+              });
+            }, 500);
+          });
+          // wx.error(function(res: any) {
+          //   alert(JSON.stringify(res));
+          // });
         }
-        wx.config(config);
-        wx.ready(function() {
-          setTimeout(() => {
-            wx.updateAppMessageShareData({
-              title: title,
-              desc: desc,
-              link: result[0] + link,
-              imgUrl: result[0] + imgUrl,
-              success: function () {
-                return;
-              }
-            });
-            wx.updateTimelineShareData({
-              title: title,
-              desc: desc,
-              link: result[0] + link,
-              imgUrl: result[0] + imgUrl,
-              success: function () {
-                return;
-              }
-            });
-          }, 500);
-        });
-        // wx.error(function(res: any) {
-        //   alert(JSON.stringify(res));
-        // });
-      }
-    );
+      );
+    }
   }
 
   hideWechatShareConfig() {
-    forkJoin([
-      this.applicationAPI.getBaseUrl(),
-      this.wechatAPI.getWechatConfig(location.href.split('#')[0]),
-    ]).subscribe(
-      result => {
-        const params = result[1].split('&');
-        const config = {
-          debug: false,
-          appId: '',
-          timestamp: '',
-          nonceStr: '',
-          signature: '',
-          jsApiList: [
-            'hideMenuItems'
-          ]
-        };
-        for (let i = 0; i < params.length; i++) {
-          if (params[i].split('=')[0] == 'appId') {
-            config.appId = params[i].split('=')[1];
-          }
-          if (params[i].split('=')[0] == 'timestamp') {
-            config.timestamp = params[i].split('=')[1];
-          }
-          if (params[i].split('=')[0] == 'nonceStr') {
-            config.nonceStr = params[i].split('=')[1];
-          }
-          if (params[i].split('=')[0] == 'signature') {
-            config.signature = params[i].split('=')[1];
-          }
-        }
-        wx.config(config);
-        wx.ready(function () {
-          wx.hideMenuItems({
-            menuList: [
-              'menuItem:copyUrl',
-              'menuItem:favorite',
-              'menuItem:openWithQQBrowser',
-              'menuItem:openWithSafari',
-              'menuItem:share:appMessage',
-              'menuItem:share:brand',
-              'menuItem:share:email',
-              'menuItem:share:facebook',
-              'menuItem:share:qq',
-              'menuItem:share:QZone',
-              'menuItem:share:timeline',
-              'menuItem:share:weiboApp',
+    const appid = this.getLocalUserInfo('appid');
+    if (appid != null) {
+      this.wechatAPI.getWechatConfig(appid, location.href.split('#')[0]).subscribe(
+        result => {
+          const params = result.split('&');
+          const config = {
+            debug: false,
+            appId: '',
+            timestamp: '',
+            nonceStr: '',
+            signature: '',
+            jsApiList: [
+              'hideMenuItems'
             ]
+          };
+          for (let i = 0; i < params.length; i++) {
+            if (params[i].split('=')[0] == 'appId') {
+              config.appId = params[i].split('=')[1];
+            }
+            if (params[i].split('=')[0] == 'timestamp') {
+              config.timestamp = params[i].split('=')[1];
+            }
+            if (params[i].split('=')[0] == 'nonceStr') {
+              config.nonceStr = params[i].split('=')[1];
+            }
+            if (params[i].split('=')[0] == 'signature') {
+              config.signature = params[i].split('=')[1];
+            }
+          }
+          wx.config(config);
+          wx.ready(function () {
+            wx.hideMenuItems({
+              menuList: [
+                'menuItem:copyUrl',
+                'menuItem:favorite',
+                'menuItem:openWithQQBrowser',
+                'menuItem:openWithSafari',
+                'menuItem:share:appMessage',
+                'menuItem:share:brand',
+                'menuItem:share:email',
+                'menuItem:share:facebook',
+                'menuItem:share:qq',
+                'menuItem:share:QZone',
+                'menuItem:share:timeline',
+                'menuItem:share:weiboApp',
+              ]
+            });
           });
-        });
-        // wx.error(function(res: any) {
-        //   alert(JSON.stringify(res));
-        // });
-      }
-    );
+          // wx.error(function(res: any) {
+          //   alert(JSON.stringify(res));
+          // });
+        }
+      );
+    }
   }
 
   closeWechatWindow() {
-    forkJoin([
-      this.applicationAPI.getBaseUrl(),
-      this.wechatAPI.getWechatConfig(location.href.split('#')[0]),
-    ]).subscribe(
-      result => {
-        const params = result[1].split('&');
-        const config = {
-          debug: false,
-          appId: '',
-          timestamp: '',
-          nonceStr: '',
-          signature: '',
-          jsApiList: [
-            'closeWindow',
-          ]
-        };
-        for (let i = 0; i < params.length; i++) {
-          if (params[i].split('=')[0] == 'appId') {
-            config.appId = params[i].split('=')[1];
+    const appid = this.getLocalUserInfo('appid');
+    if (appid != null) {
+      this.wechatAPI.getWechatConfig(appid, location.href.split('#')[0]).subscribe(
+        result => {
+          const params = result.split('&');
+          const config = {
+            debug: false,
+            appId: '',
+            timestamp: '',
+            nonceStr: '',
+            signature: '',
+            jsApiList: [
+              'closeWindow',
+            ]
+          };
+          for (let i = 0; i < params.length; i++) {
+            if (params[i].split('=')[0] == 'appId') {
+              config.appId = params[i].split('=')[1];
+            }
+            if (params[i].split('=')[0] == 'timestamp') {
+              config.timestamp = params[i].split('=')[1];
+            }
+            if (params[i].split('=')[0] == 'nonceStr') {
+              config.nonceStr = params[i].split('=')[1];
+            }
+            if (params[i].split('=')[0] == 'signature') {
+              config.signature = params[i].split('=')[1];
+            }
           }
-          if (params[i].split('=')[0] == 'timestamp') {
-            config.timestamp = params[i].split('=')[1];
-          }
-          if (params[i].split('=')[0] == 'nonceStr') {
-            config.nonceStr = params[i].split('=')[1];
-          }
-          if (params[i].split('=')[0] == 'signature') {
-            config.signature = params[i].split('=')[1];
-          }
+          wx.config(config);
+          wx.ready(function() {
+            wx.closeWindow();
+          });
+          // wx.error(function(res: any) {
+          //   alert(JSON.stringify(res));
+          // });
         }
-        wx.config(config);
-        wx.ready(function() {
-          wx.closeWindow();
-        });
-        // wx.error(function(res: any) {
-        //   alert(JSON.stringify(res));
-        // });
-      }
-    );
+      );
+    }
   }
 
   getLocalUserInfo(key: string): string | null {
@@ -192,84 +194,90 @@ export class WechatService {
       return;
     }
     if (key == 'avatar') {
-      this.wechatAPI.getAvatar(openid).subscribe(
-        data => {
+      this.wechatAPI.getAvatar(openid).subscribe({
+        next: data => {
           this.setAvatar(data);
         },
-        error => {
+        error: error => {
           if (error.status == 401) {
             this.getWechatUserInfo('avatar');
           }
-        }
-      );
+        },
+      });
     }
     if (key == 'gender') {
-      this.wechatAPI.getGender(openid).subscribe(
-        data => {
+      this.wechatAPI.getGender(openid).subscribe({
+        next: data => {
           this.setGender(parseInt(data));
         },
-        error => {
+        error: error => {
           if (error.status == 401) {
             this.getWechatUserInfo('gender');
           }
-        }
-      );
+        },
+      });
     }
     if (key == 'nickname') {
-      this.wechatAPI.getNickname(openid).subscribe(
-        data => {
+      this.wechatAPI.getNickname(openid).subscribe({
+        next: data => {
           this.setNickname(data);
         },
-        error => {
+        error: error => {
           if (error.status == 401) {
             this.getWechatUserInfo('nickname');
           }
-        }
-      );
+        },
+      });
     }
     if (key == 'unionid') {
-      this.wechatAPI.getUnionid(openid).subscribe(
-        data => {
+      this.wechatAPI.getUnionid(openid).subscribe({
+        next: data => {
           this.setUnionid(data);
         },
-        error => {
+        error: error => {
           if (error.status == 401) {
             this.getWechatUserInfo('unionid');
           }
-        }
-      );
+        },
+      });
     }
   }
 
   getWechatUserInfo(key: string) {
-    if (environment.wechat == 'official') {
-      if (key == 'openid') {
-        forkJoin([
-          this.applicationAPI.getBaseUrl(),
-          this.wechatAPI.getWechatAppid(),
-        ]).subscribe(
-          results => {
-            location.replace('https://open.weixin.qq.com/connect/oauth2/authorize?appid='
-              + results[1] + '&redirect_uri=' + encodeURIComponent(results[0] + 'wechat')
-              + '&response_type=code&scope=snsapi_base&state=' + encodeURIComponent(window.location.href)
-              + '&connect_redirect=1#wechat_redirect');
+    this.wechatAPI.getWechatAppid(this.document.location.hostname).subscribe(
+      result => {
+        const appid = result;
+        this.setAppid(appid);
+
+        if (environment.wechat == 'official') {
+          if (key == 'openid') {
+            this.wechatAPI.getWechatAccountAuthDomain(appid).subscribe(
+              result => {
+                location.replace('https://open.weixin.qq.com/connect/oauth2/authorize?appid='
+                  + appid + '&redirect_uri=' + encodeURIComponent('https://' + result + '/wechat')
+                  + '&response_type=code&scope=snsapi_base&state=' + encodeURIComponent(window.location.href)
+                  + '&connect_redirect=1#wechat_redirect');
+              }
+            );
           }
-        );
-      }
-      if (key == 'avatar' || key == 'gender' || key == 'nickname' || key == 'unionid') {
-        forkJoin([
-          this.applicationAPI.getBaseUrl(),
-          this.wechatAPI.getWechatAppid(),
-        ]).subscribe(
-          results => {
-            location.replace('https://open.weixin.qq.com/connect/oauth2/authorize?appid='
-              + results[1] + '&redirect_uri=' + encodeURIComponent(results[0] + 'wechat')
-              + '&response_type=code&scope=snsapi_userinfo&state=' + encodeURIComponent(window.location.href)
-              + '&connect_redirect=1#wechat_redirect');
+          if (key == 'avatar' || key == 'gender' || key == 'nickname' || key == 'unionid') {
+            this.wechatAPI.getWechatAccountAuthDomain(appid).subscribe(
+              result => {
+                location.replace('https://open.weixin.qq.com/connect/oauth2/authorize?appid='
+                  + appid + '&redirect_uri=' + encodeURIComponent('https://' + result + '/wechat')
+                  + '&response_type=code&scope=snsapi_userinfo&state=' + encodeURIComponent(window.location.href)
+                  + '&connect_redirect=1#wechat_redirect');
+              }
+            );
           }
-        );
+        }
       }
-    }
+    );
+  }
+
+  setAppid(appid: string) {
+    localStorage.setItem('appid', appid);
+    this.update$.next(['appid', appid]);
   }
 
   setOpenid(openid: string) {

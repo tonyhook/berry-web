@@ -107,7 +107,7 @@
     </mat-card-content>
   </mat-card>
 
-  <mat-paginator *ngIf="page" [length]="page.totalElements" [pageSize]="page.size" [pageIndex]="page.number" [hidePageSize]="true" (page)="pageChange($event)"></mat-paginator>
+  <mat-paginator *ngIf="page" [length]="page.page.totalElements" [pageSize]="page.page.size" [pageIndex]="page.page.number" [hidePageSize]="true" (page)="pageChange($event)"></mat-paginator>
   <div class="gallery-list">
     <ng-container *ngFor="let gallery of galleries">
       <div class="gallery-wrapper" (click)="selectGallery(gallery)">

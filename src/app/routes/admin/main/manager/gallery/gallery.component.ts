@@ -72,8 +72,8 @@ export class GalleryManagerComponent implements OnInit {
           );
 
           this.data.page$.subscribe(data => {
-            if (data.content.length == 0 && data.totalElements != 0) {
-              this.data.fetch(data.number - 1);
+            if (data.content.length == 0 && data.page.totalElements != 0) {
+              this.data.fetch(data.page.number - 1);
             } else {
               this.page = data;
               this.galleries = data.content;
@@ -156,7 +156,7 @@ export class GalleryManagerComponent implements OnInit {
     };
     this.galleryAPI.addGallery(gallery).subscribe(() => {
       if (this.page) {
-        this.data.fetch(this.page.number);
+        this.data.fetch(this.page.page.number);
       }
     });
 
@@ -200,7 +200,7 @@ export class GalleryManagerComponent implements OnInit {
       this.galleryAPI.removeGallery(this.gallery.id).subscribe(() => {
         this.gallery = null;
         if (this.page) {
-          this.data.fetch(this.page.number);
+          this.data.fetch(this.page.page.number);
         }
       });
     }

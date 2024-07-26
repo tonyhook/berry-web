@@ -63,5 +63,5 @@
     <mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></mat-row>
   </mat-table>
 
-  <mat-paginator *ngIf="data.page$ | async as page" [length]="page.totalElements" [pageSize]="page.size" [pageIndex]="page.number" [hidePageSize]="true" (page)="data.fetch($event.pageIndex)"></mat-paginator>
+  <mat-paginator *ngIf="data.page$ | async as page" [length]="page.page.totalElements" [pageSize]="page.page.size" [pageIndex]="page.page.number" [hidePageSize]="true" (page)="data.fetch($event.pageIndex)"></mat-paginator>
 </div>

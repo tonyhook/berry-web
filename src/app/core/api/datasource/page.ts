@@ -11,11 +11,16 @@ export interface PageRequest<T> {
   sort: Sort<T> | null;
 }
 
-export interface Page<T> {
-  content: T[];
+export interface Paginator {
   totalElements: number;
+  totalPages: number;
   size: number;
   number: number;
+}
+
+export interface Page<T> {
+  content: T[];
+  page: Paginator;
 }
 
 export type PaginatedEndpoint<T, Q> = (req: PageRequest<T>, query: Q) => Observable<Page<T>>;
